@@ -7,14 +7,13 @@ import {
     TableBody,
     TableCaption,
     TableCell,
-    TableFooter,
     TableHead,
     TableHeader,
     TableRow,
   } from "@/components/ui/table"
 import { RiFilter2Fill } from 'react-icons/ri';
 import { IoIosSearch } from 'react-icons/io';
-import { HiSortAscending } from "react-icons/hi";
+import Image from 'next/image';
 
 interface UserUIProps {
     limit: number;
@@ -174,7 +173,7 @@ const UserUI: React.FC<UserUIProps> = ({limit, sortBy, order, onUpdate}) => {
                             <TableRow key={users?.id}>
                                 <TableCell></TableCell>
                                 <TableCell className="flex justify-center">
-                                    <img src={users?.image} alt="" className="rounded-full w-[24px] h-[24px]"/>
+                                    <Image src={users?.image} alt="" className="rounded-full w-[24px] h-[24px]"/>
                                 </TableCell>
                                 <TableCell className="text-center">
                                     {

@@ -1,7 +1,5 @@
 "use client"
 import { UserUI } from "@/components";
-import { useGetAllUsers } from "@/hooks/useUser";
-import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useEffect } from "react";
 
