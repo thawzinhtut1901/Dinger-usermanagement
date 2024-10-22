@@ -7,14 +7,12 @@ import {
     TableBody,
     TableCaption,
     TableCell,
-    TableFooter,
     TableHead,
     TableHeader,
     TableRow,
   } from "@/components/ui/table"
 import { RiFilter2Fill } from 'react-icons/ri';
 import { IoIosSearch } from 'react-icons/io';
-import { HiSortAscending } from "react-icons/hi";
 
 interface UserUIProps {
     limit: number;
