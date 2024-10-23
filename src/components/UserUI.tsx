@@ -167,27 +167,6 @@ const UserUI: React.FC<UserUIProps> = ({limit, sortBy, skip,  currentPage, onPag
               )
             }
           </div>
-
-          {/* <div onClick={handleOrderDown} className="relative bg-white shadow-md mb-4 ml-7 p-2 rounded-[10px] h-[35px]">
-            <HiSortAscending className="w-[18px] h-[18px]"/>
-
-            {
-              isOrdering && (
-                <div className="top-full left-0 z-10 absolute bg-white shadow-lg mt-2 py-2 rounded-md w-48">
-                    <div>
-                        <h1 className="mx-4 border-b border-b-slate-700 text-gray-600 cursor-default">Ordering</h1> 
-                        <button className="block hover:bg-gray-100 px-4 py-2 w-full text-left">
-                            Ascending Order
-                        </button>
-                        <button className="block hover:bg-gray-100 px-4 py-2 w-full text-left">
-                            Decending Order
-                        </button>
-                    </div>
-
-                </div>
-              )
-            }
-          </div> */}
           
           <div className="relative ml-4">
             <IoIosSearch
@@ -198,12 +177,10 @@ const UserUI: React.FC<UserUIProps> = ({limit, sortBy, skip,  currentPage, onPag
                 <input
                     className="shadow-md px-4 py-1 rounded-[6px] w-[320px] h-[34px]"
                     placeholder="Search..."
-                    // value={search}
-                    // onChange={handleSearchChange}
                 />
           </div>
 
-          {showOrderInstruction && ( // Show instruction if sortBy is not selected
+          {showOrderInstruction && ( 
             <div className="mx-auto font-bold text-[16px] text-red-600">Please select a sorting option before ordering.</div>
           )}
         </div>
