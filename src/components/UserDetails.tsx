@@ -47,9 +47,6 @@ const UserDetails = () => {
             <div>
               <h1 className="font-bold text-2xl">{getUser?.firstName} {getUser?.lastName} {getUser?.maidenName}</h1>
               <p className="text-slate-300">{getUser?.email}</p>
-              {/* <button className="bg-blue-500 hover:bg-blue-600 mt-2 px-4 py-2 rounded text-white">
-                Edit Profile
-              </button> */}
             </div>
           </div>
         </div>
@@ -109,7 +106,6 @@ const UserDetails = () => {
         </div>
       </main>
 
-      {/* Footer */}
       <footer className="shadow mt-6">
         <div className="mx-auto px-4 py-4 max-w-7xl text-center">
           <p className="text-gray-500">© 2024 MyApp. All rights reserved.</p>
