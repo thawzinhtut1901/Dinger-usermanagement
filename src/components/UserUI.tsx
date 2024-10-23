@@ -13,27 +13,49 @@ import {
   } from "@/components/ui/table"
 import { RiFilter2Fill } from 'react-icons/ri';
 import { IoIosSearch } from 'react-icons/io';
-import Image from 'next/image';
+import { Pagination, Stack } from "@mui/material";
+import { Button } from './ui/button';
+import { BsChevronDoubleLeft, BsChevronDoubleRight } from 'react-icons/bs';
+import { useRouter } from 'next/navigation';
+
+interface User {
+    id: number;
+    firstName: string;
+    lastName: string;
+    maidenName?: string;
+    username: string;
+    role: string;
+    phone: string;
+    email: string;
+    image: string;
+}
 
 interface UserUIProps {
     limit: number;
+    skip: number;
     sortBy?: string;
     order?: string;
+    currentPage: number;           
+    onPageChange: (newPage: number) => void;
     onUpdate: ( sortBy?: string, order?: string) => void;
 }
 
-const UserUI: React.FC<UserUIProps> = ({limit, sortBy, order, onUpdate}) => {
+const UserUI: React.FC<UserUIProps> = ({limit, sortBy, skip,  currentPage, onPageChange,  order, onUpdate}) => {
+    const [localCurrentPage, setLocalCurrentPage] = useState(currentPage);
     const {data: getAllUser} = useGetAllUsers({
         limit,
+        skip: (currentPage - 1) * limit,
         sortBy,
         order,
     });
 
     const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+    const [selectedId, setSelectedId] = useState<number | null>(null);
+    const router = useRouter();
     const [showOrderInstruction, setShowOrderInstruction] = useState(false);
 
     useEffect(() => {
-        const params: any = {};
+        const params: Record<string, string>= {};
         if (limit) {
             params.limit = limit.toString();
             if(sortBy) {
@@ -42,11 +64,13 @@ const UserUI: React.FC<UserUIProps> = ({limit, sortBy, order, onUpdate}) => {
             if(order) {
                 params.order = order;
             }
-            // Update the URL with the new limit
+            if(skip) {
+                params.skip = skip.toString()
+            }
             const newUrl = `${window.location.pathname}?${new URLSearchParams(params).toString()}`;
             window.history.replaceState({}, '', newUrl);
         }
-    }, [limit, sortBy, order]);
+    }, [limit, sortBy, order, skip]);
 
     console.log(getAllUser)
 
@@ -70,12 +94,45 @@ const UserUI: React.FC<UserUIProps> = ({limit, sortBy, order, onUpdate}) => {
         }
     }
 
+    const handleRowClick = (id: number) => {
+        setSelectedId(id); 
+        router.push(`/users/${id}`);
+      };
+
+      const handlePageChange = (event: React.ChangeEvent<unknown>, page: number) => {
+        event.preventDefault();
+        setLocalCurrentPage(page);
+        onPageChange(page);
+    };
+    const handleFirstPage = () => {
+        setLocalCurrentPage(1);
+        onPageChange(1);
+    };
+
+    const handleLastPage = () => {
+        const lastPage = Math.ceil(getAllUser?.total / limit);
+        setLocalCurrentPage(lastPage);
+        onPageChange(lastPage);
+    };
+
   return (
     <div className="flex flex-col">
-         <h1 className="my-4 ml-7 font-bold font-luxuriousRoman text-[35px] text-orange-700">Users List</h1>
+        <header className="fixed bg-slate-900 shadow w-screen text-white">
+            <div className="flex justify-between items-center mx-auto px-4 py-4 max-w-7xl">
+            <div className="font-bold text-xl">MyApp</div>
+            <nav>
+                <ul className="flex space-x-4">
+                <li><a href="#" className="text-white hover:text-blue-500">Home</a></li>
+                <li><a href="#" className="text-white hover:text-blue-500">Users</a></li>
+                <li><a href="#" className="text-white hover:text-blue-500">Settings</a></li>
+                </ul>
+            </nav>
+            </div>
+        </header>
+         <h1 className="mt-[80px] mb-4 ml-[60px] font-bold font-luxuriousRoman text-[35px] text-orange-700">Users List</h1>
 
          <div className="flex">
-          <div onClick={handleDropDown} className="relative bg-white shadow-md mb-4 ml-7 p-2 rounded-[10px] h-[35px] cursor-pointer">
+          <div onClick={handleDropDown} className="relative bg-white shadow-md mb-4 ml-[60px] p-2 rounded-[10px] h-[35px] cursor-pointer">
               <RiFilter2Fill  className="w-[18px] h-[18px]"/>
               
             {
@@ -157,25 +214,26 @@ const UserUI: React.FC<UserUIProps> = ({limit, sortBy, order, onUpdate}) => {
                 <TableHeader>
                     <TableRow>
                         <TableHead></TableHead>
-                        <TableHead className="text-center">Profile</TableHead>   
-                        <TableHead className="text-center">
+                        <TableHead className="text-center text-slate-800">Profile</TableHead>   
+                        <TableHead className="text-center text-slate-800">
                             {sortBy === "firstName" ? "First Name" : sortBy === "lastName" ? "Last Name" : sortBy === "maidenName" ? "Maiden Name" : "Name"}
                         </TableHead>
-                        <TableHead className="text-center">Username</TableHead>
-                        <TableHead className="text-center">Role</TableHead>
-                        <TableHead className="text-center">Phone</TableHead>
-                        <TableHead className="text-center">Email</TableHead>
+                        <TableHead className="text-center text-slate-800">Username</TableHead>
+                        <TableHead className="text-center text-slate-800">Role</TableHead>
+                        <TableHead className="text-center text-slate-800">Phone</TableHead>
+                        <TableHead className="text-center text-slate-800">Email</TableHead>
                     </TableRow>
                 </TableHeader>
-                <TableBody>
-                    {
-                        getAllUser?.users?.map((users:any) => (
-                            <TableRow key={users?.id}>
+                <TableBody> 
+                   
+                    {             
+                        getAllUser?.users?.map((users:User) => (
+                            <TableRow onClick={() => handleRowClick(users?.id)} key={users?.id}>
                                 <TableCell></TableCell>
                                 <TableCell className="flex justify-center">
-                                    <Image src={users?.image} alt="" className="rounded-full w-[24px] h-[24px]"/>
+                                    <img src={users?.image} alt="" className="rounded-full w-[24px] h-[24px]"/>
                                 </TableCell>
-                                <TableCell className="text-center">
+                                <TableCell className="text-blue-600 text-center">
                                     {
                                         sortBy === "firstName" ? users?.firstName :
                                         sortBy === "lastName" ? users?.lastName :
@@ -194,7 +252,60 @@ const UserUI: React.FC<UserUIProps> = ({limit, sortBy, order, onUpdate}) => {
                 </TableBody>
             </Table>
         </div>
-        
+
+        <div className="flex justify-center gap-x-2 my-[30px]">
+          <div className="flex ml-[20px] text-[16px]">
+            <Button onClick={handleFirstPage} disabled={localCurrentPage === 1} className="flex font-bold font-roboto text-black uppercase"><BsChevronDoubleLeft/>First</Button>
+            <Stack spacing={1}>
+                <Pagination 
+                  count={Math.ceil(getAllUser?.total / limit)} 
+                  page = {currentPage}
+                  onChange={handlePageChange}
+                  defaultPage={1}
+                  boundaryCount={1}
+                  variant="outlined" 
+                  shape="rounded" 
+                  sx={{
+                    '& .MuiPaginationItem-root': {
+                    backgroundColor: '#E6E6FA',
+                    color: 'black',
+                  },
+                    '& .MuiPaginationItem-root.Mui-selected': {
+                    backgroundColor: '#000080',
+                    color: 'white'
+                  },
+                    '& .MuiPaginationItem-previousNext': {
+                    backgroundColor: 'transparent',
+                    border: "none", 
+                    color: '#9054DE',
+                    '&:hover': {
+                    backgroundColor: '#FFDAB9', 
+                    },
+                  },
+                    '& .MuiPaginationItem-ellipsis': {
+                    backgroundColor: 'transparent',
+                    color: '#E6E6FA',  
+                  },
+                }}
+              />
+              </Stack>
+              <Button onClick={handleLastPage} disabled={localCurrentPage === Math.ceil(getAllUser?.total / limit)} className="flex font-bold font-roboto text-black uppercase">Last <BsChevronDoubleRight/> </Button>
+            </div>            
+        </div>
+        <div className="flex mr-14 ml-auto">
+            <Button className="bg-blue-700 hover:bg-blue-600 px-8 py-2 rounded-[8px] text-white">Skip</Button>
+        </div>
+
+        <footer className="mt-6">
+            <div className="mx-auto px-4 py-4 max-w-7xl text-center">
+            <p className="text-gray-500">© 2024 MyApp. All rights reserved.</p>
+            <ul className="flex justify-center space-x-4 mt-2">
+                <li><a href="#" className="text-gray-600 hover:text-blue-500">Privacy Policy</a></li>
+                <li><a href="#" className="text-gray-600 hover:text-blue-500">Terms of Service</a></li>
+                <li><a href="#" className="text-gray-600 hover:text-blue-500">Contact Us</a></li>
+            </ul>
+            </div>
+      </footer>
     </div>
   )
 }
