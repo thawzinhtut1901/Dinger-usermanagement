@@ -17,6 +17,8 @@ import { Pagination, Stack } from "@mui/material";
 import { Button } from './ui/button';
 import { BsChevronDoubleLeft, BsChevronDoubleRight } from 'react-icons/bs';
 import { useRouter } from 'next/navigation';
+import Swal from "sweetalert2";
+import { ButtonLoading } from './ui/buttonLoading';
 
 interface User {
     id: number;
@@ -42,7 +44,7 @@ interface UserUIProps {
 
 const UserUI: React.FC<UserUIProps> = ({limit, sortBy, skip,  currentPage, onPageChange,  order, onUpdate}) => {
     const [localCurrentPage, setLocalCurrentPage] = useState(currentPage);
-    const {data: getAllUser} = useGetAllUsers({
+    const {data: getAllUser, isLoading} = useGetAllUsers({
         limit,
         skip: (currentPage - 1) * limit,
         sortBy,
@@ -51,6 +53,7 @@ const UserUI: React.FC<UserUIProps> = ({limit, sortBy, skip,  currentPage, onPag
 
     const [isDropdownOpen, setIsDropdownOpen] = useState(false);
     const [selectedId, setSelectedId] = useState<number | null>(null);
+    const [loading, setLoading] = useState(false);
     const router = useRouter();
     const [showOrderInstruction, setShowOrderInstruction] = useState(false);
 
@@ -96,7 +99,9 @@ const UserUI: React.FC<UserUIProps> = ({limit, sortBy, skip,  currentPage, onPag
 
     const handleRowClick = (id: number) => {
         setSelectedId(id); 
-        router.push(`/users/${id}`);
+        setLoading(true);
+        router.push(`/users/${id}`)
+        setLoading(false);
       };
 
       const handlePageChange = (event: React.ChangeEvent<unknown>, page: number) => {
@@ -125,7 +130,12 @@ const UserUI: React.FC<UserUIProps> = ({limit, sortBy, skip,  currentPage, onPag
     }
 
   return (
-    <div className="flex flex-col">
+    <div className="relative flex flex-col">
+              {loading && (
+                <div className="z-50 fixed inset-0 flex justify-center items-center">
+                <ButtonLoading />
+                </div>
+            )}
         <header className="fixed bg-slate-900 shadow w-screen text-white">
             <div className="flex justify-between items-center mx-auto px-4 py-4 max-w-7xl">
             <div className="font-bold text-xl">MyApp</div>
@@ -138,10 +148,10 @@ const UserUI: React.FC<UserUIProps> = ({limit, sortBy, skip,  currentPage, onPag
             </nav>
             </div>
         </header>
-         <h1 className="mt-[80px] mb-4 ml-[60px] font-bold font-luxuriousRoman text-[35px] text-orange-700">Users List</h1>
+         <h1 className="mt-[80px] mb-4 md:ml-[60px] font-bold font-luxuriousRoman text-[35px] text-center text-orange-700 md:text-start">Users List</h1>
 
          <div className="flex">
-          <div onClick={handleDropDown} className="relative bg-white shadow-md mb-4 ml-[60px] p-2 rounded-[10px] h-[35px] cursor-pointer">
+          <div onClick={handleDropDown} className="relative bg-white shadow-md mb-4 ml-8 md:ml-[60px] p-2 rounded-[10px] h-[35px] cursor-pointer">
               <RiFilter2Fill  className="w-[18px] h-[18px]"/>
               
             {
@@ -194,7 +204,7 @@ const UserUI: React.FC<UserUIProps> = ({limit, sortBy, skip,  currentPage, onPag
           )}
         </div>
 
-        <div className="border-slate-500 shadow-lg shadow-slate-400 mx-[30px] border rounded-[5px]">
+        <div className="border-slate-500 shadow-lg shadow-slate-400 mx-[30px] border rounded-[5px] overflow-x-auto md:overflow-x-hidden overflow-y-hidden">
             <Table>
                 <TableCaption>List of Users.</TableCaption>
                 <TableHeader>
@@ -208,6 +218,7 @@ const UserUI: React.FC<UserUIProps> = ({limit, sortBy, skip,  currentPage, onPag
                         <TableHead className="text-center text-slate-800">Role</TableHead>
                         <TableHead className="text-center text-slate-800">Phone</TableHead>
                         <TableHead className="text-center text-slate-800">Email</TableHead>
+                        <TableHead></TableHead>
                     </TableRow>
                 </TableHeader>
                 <TableBody> 
@@ -231,6 +242,7 @@ const UserUI: React.FC<UserUIProps> = ({limit, sortBy, skip,  currentPage, onPag
                                 <TableCell className="text-center">{users?.role}</TableCell>
                                 <TableCell className="text-center">{users?.phone}</TableCell>
                                 <TableCell className="text-center">{users?.email}</TableCell>
+                                <TableCell onClick={() => handleRowClick(users?.id)} className="text-center cursor-default">See Details...</TableCell>
                             </TableRow>
                         ))
                     }
