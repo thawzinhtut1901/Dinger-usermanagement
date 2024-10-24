@@ -42,11 +42,11 @@ const UserDetails = () => {
             <img 
               src={getUser?.image} 
               alt="Profile" 
-              className="bg-white mr-6 rounded-full w-24 h-24"
+              className="bg-white mr-6 rounded-full w-[52px] md:w-24 h-[52px] md:h-24"
             />
             <div>
-              <h1 className="font-bold text-2xl">{getUser?.firstName} {getUser?.lastName} {getUser?.maidenName}</h1>
-              <p className="text-slate-300">{getUser?.email}</p>
+              <h1 className="font-bold text-[20px] md:text-[24px]">{getUser?.firstName} {getUser?.lastName} {getUser?.maidenName}</h1>
+              <p className="text-[16px] text-slate-300 md:text-[18px]">{getUser?.email}</p>
             </div>
           </div>
         </div>
@@ -55,48 +55,48 @@ const UserDetails = () => {
             <div className="bg-custom-gradient p-4 rounded-tr-full rounded-bl-full">
                 <div className="bg-custom-gradient p-4 rounded-tl-full rounded-br-full text-slate-800">
                   <div className="border-white/20 bg-slate-400 bg-opacity-30 backdrop-blur-md backdrop-filter p-5 rounded-[4px]">
-                    <h2 className="mb-4 font-bold text-[24px]">User Details</h2>
+                    <h2 className="mb-4 font-bold text-[20px] md:text-[24px]">User Details</h2>
                     <div className="space-y-2">
                         <div>
-                        <span className="font-semibold text-[18px]">Username:</span> <span className="ml-3 font-serif text-[18px] text-blue-900">@{getUser?.username}</span>
+                        <span className="font-semibold text-[16px] md:text-[18px]">Username:</span> <span className="ml-3 font-serif text-[16px] text-blue-900 md:text-[18px]">@{getUser?.username}</span>
                         </div>
                         <div>
-                        <span className="font-semibold text-[18px]">Bio:</span> <span className="ml-3 font-serif text-[18px]">{getUser?.bio}</span>
+                        <span className="font-semibold text-[16px] md:text-[18px]">Bio:</span> <span className="ml-3 font-serif text-[16px] md:text-[18px]">{getUser?.bio}</span>
                         </div>
                         <div className="flex">
-                        <span className="flex mt-[1px] font-semibold"><FaPhoneSquareAlt className="mt-1 w-[18px] h-[18px]"/> :</span> <span className="ml-3 font-roboto text-[18px]">{getUser?.phone}</span>
+                        <span className="flex mt-[1px] font-semibold"><FaPhoneSquareAlt className="mt-1 w-[16px] md:w-[18px] h-[16px] md:h-[18px]"/> :</span> <span className="ml-3 font-roboto text-[16px] md:text-[18px]">{getUser?.phone}</span>
                         </div>
 
                         <div className="flex">
-                          <span className="flex mt-[2px] font-semibold"><FaAddressCard className="mt-[2px] w-[18px] h-[18px]"/>:</span> 
-                          <span className="ml-3 font-serif text-[18px]">
+                          <span className="flex mt-[2px] font-semibold"><FaAddressCard className="mt-[3px] md:mt-[2px] w-[16px] md:w-[18px] h-[16px] md:h-[18px]"/>:</span> 
+                          <span className="ml-3 font-serif text-[16px] md:text-[18px]">
                               {`${getUser?.address?.address}, ${getUser?.address?.city},`}
                           </span> <br /> 
-                          <span className="ml-3 font-serif text-[18px]">{`${getUser?.address?.state}, ${getUser?.address?.country}`}</span>
+                          <span className="ml-3 font-serif text-[16px] md:text-[18px]">{`${getUser?.address?.state}, ${getUser?.address?.country}`}</span>
                         </div>
 
                         <div>
-                        <span className="font-semibold text-[18px]">Gender:</span> <span className="ml-3 font-serif text-[18px]">{getUser?.gender}</span>
+                        <span className="font-semibold text-[16px] md:text-[18px]">Gender:</span> <span className="ml-3 font-serif text-[16px] md:text-[18px]">{getUser?.gender}</span>
                         </div>
 
                         <div className="flex">
-                        <span className="flex font-semibold"><FaBirthdayCake className="w-[18px]"/>:</span> <span className="ml-3 font-roboto text-[18px]">{getUser?.birthDate}</span>
+                        <span className="flex mt-[1px] md:mt-[2px] font-semibold"><FaBirthdayCake className="w-[16px] md:w-[18px] h-[16px] md:h-[18px]"/>:</span> <span className="ml-3 font-roboto text-[16px] md:text-[18px]">{getUser?.birthDate}</span>
                         </div>
                         <div>
-                        <span className="font-semibold text-[18px]">University:</span> <span className="ml-3 font-serif text-[18px]">{getUser?.university}</span>
+                        <span className="font-semibold text-[16px] md:text-[18px]">University:</span> <span className="ml-3 font-serif text-[16px] md:text-[18px]">{getUser?.university}</span>
                         </div>
                         <div>
-                        <span className="font-semibold text-[18px]">Works at:</span> <span className="ml-3 font-serif text-[18px]">{getUser?.company?.title} at {getUser?.company?.name}</span>
+                        <span className="font-semibold text-[16px] md:text-[18px]">Works at:</span> <span className="ml-3 font-serif text-[16px] md:text-[18px]">{getUser?.company?.title} at {getUser?.company?.name}</span>
                         </div>
 
-                        <h1 className="mb-4 pt-4 font-bold text-[24px]">Other Information</h1>
+                        <h1 className="mb-4 pt-4 font-bold text-[20px] md:text-[24px]">Other Information</h1>
 
                         <div className="flex">
-                          <span className="flex font-semibold"><IoWallet  className="mt-[2px] w-[18px] h-[18px]"/>:</span> <span className="ml-3 font-serif text-[18px]">{getUser?.crypto?.coin}</span>
+                          <span className="flex font-semibold"><IoWallet  className="mt-[3px] md:mt-[2px] w-[16px] md:w-[18px] h-[16px] md:h-[18px]"/>:</span> <span className="ml-3 font-serif text-[16px] md:text-[18px]">{getUser?.crypto?.coin}</span>
                         </div>
 
                         <div className="flex">
-                          <span className="flex font-semibold"><PiBankFill className="mt-[2px] w-[18px] h-[18px]"/>:</span> <span className="ml-3 font-serif text-[18px]">{getUser?.bank?.currency}</span>
+                          <span className="flex font-semibold"><PiBankFill className="mt-[3px] md:mt-[2px] w-[16px] md:w-[18px] h-[16px] md:h-[18px]"/>:</span> <span className="ml-3 font-serif text-[16px] md:text-[18px]">{getUser?.bank?.currency}</span>
                         </div>
                       
                     </div>
