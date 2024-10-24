@@ -23,7 +23,7 @@ const UserDetails = () => {
     console.log(getUser)
   return (
     <div className="flex flex-col min-h-screen">
-      <header className="fixed bg-slate-900 shadow w-screen text-white">
+      <header className="bg-slate-900 shadow w-screen text-white">
         <div className="flex justify-between items-center mx-auto px-4 py-4 max-w-7xl">
           <div className="font-bold text-xl">MyApp</div>
           <nav>
@@ -36,8 +36,8 @@ const UserDetails = () => {
         </div>
       </header>
 
-      <main className="flex-grow mx-auto mt-[80px] p-6 max-w-7xl">
-        <div className="bg-black bg-opacity-65 shadow p-6 rounded-lg text-white">
+      <main className="flex-grow mx-auto mt-[20px] p-6 max-w-7xl">
+        <div className="bg-slate-900 shadow-inner shadow-white p-6 rounded-lg text-white">
           <div className="flex items-center">
             <img 
               src={getUser?.image} 
@@ -51,7 +51,7 @@ const UserDetails = () => {
           </div>
         </div>
 
-        <div className="bg-black bg-opacity-65 shadow-black shadow-md mt-6 p-4 rounded-lg">
+        <div className="bg-slate-900 shadow-inner shadow-white mt-6 p-4 rounded-lg">
             <div className="bg-custom-gradient p-4 rounded-tr-full rounded-bl-full">
                 <div className="bg-custom-gradient p-4 rounded-tl-full rounded-br-full text-slate-800">
                   <div className="border-white/20 bg-slate-400 bg-opacity-30 backdrop-blur-md backdrop-filter p-5 rounded-[4px]">

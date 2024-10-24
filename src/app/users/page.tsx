@@ -81,7 +81,7 @@ export default function UserList() {
     };
 
     return (
-        <div className="bg-custom-gradient w-full min-h-screen">
+        <div className="w-full min-h-screen overflow-x-hidden">
             {loading ? (
                 <div>Loading...</div>
             ) : (
