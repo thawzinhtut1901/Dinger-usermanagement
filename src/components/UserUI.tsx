@@ -17,8 +17,6 @@ import { Pagination, Stack } from "@mui/material";
 import { Button } from './ui/button';
 import { BsChevronDoubleLeft, BsChevronDoubleRight } from 'react-icons/bs';
 import { useRouter } from 'next/navigation';
-import Swal from "sweetalert2";
-import { ButtonLoading } from './ui/buttonLoading';
 
 interface User {
     id: number;
@@ -53,7 +51,6 @@ const UserUI: React.FC<UserUIProps> = ({limit, sortBy, skip,  currentPage, onPag
 
     const [isDropdownOpen, setIsDropdownOpen] = useState(false);
     const [selectedId, setSelectedId] = useState<number | null>(null);
-    const [loading, setLoading] = useState(false);
     const router = useRouter();
     const [showOrderInstruction, setShowOrderInstruction] = useState(false);
 
@@ -99,9 +96,7 @@ const UserUI: React.FC<UserUIProps> = ({limit, sortBy, skip,  currentPage, onPag
 
     const handleRowClick = (id: number) => {
         setSelectedId(id); 
-        setLoading(true);
         router.push(`/users/${id}`)
-        setLoading(false);
       };
 
       const handlePageChange = (event: React.ChangeEvent<unknown>, page: number) => {
@@ -131,11 +126,6 @@ const UserUI: React.FC<UserUIProps> = ({limit, sortBy, skip,  currentPage, onPag
 
   return (
     <div className="relative flex flex-col">
-              {loading && (
-                <div className="z-50 fixed inset-0 flex justify-center items-center">
-                <ButtonLoading />
-                </div>
-            )}
         <header className="fixed bg-slate-900 shadow w-screen text-white">
             <div className="flex justify-between items-center mx-auto px-4 py-4 max-w-7xl">
             <div className="font-bold text-xl">MyApp</div>
@@ -288,10 +278,11 @@ const UserUI: React.FC<UserUIProps> = ({limit, sortBy, skip,  currentPage, onPag
               />
               </Stack>
               <Button onClick={handleLastPage} disabled={localCurrentPage === Math.ceil(getAllUser?.total / limit)} className="flex font-bold font-roboto text-black uppercase">Last <BsChevronDoubleRight/> </Button>
-            </div>            
-        </div>
-        <div className="flex mr-14 ml-auto">
-            <Button onClick={handleSkip}  disabled={localCurrentPage === Math.ceil(getAllUser?.total / limit)} className="bg-blue-700 hover:bg-blue-600 px-8 py-2 rounded-[8px] text-white">Skip</Button>
+            </div> 
+            
+            <div className="flex pl-4">
+                <Button onClick={handleSkip}  disabled={localCurrentPage === Math.ceil(getAllUser?.total / limit)} className="flex font-bold font-roboto text-[16px] text-blue-900 hover:text-blue-500">Skip to other pages</Button>
+            </div>           
         </div>
 
         <footer className="mt-6">
