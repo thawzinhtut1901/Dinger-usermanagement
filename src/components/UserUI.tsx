@@ -115,6 +115,15 @@ const UserUI: React.FC<UserUIProps> = ({limit, sortBy, skip,  currentPage, onPag
         onPageChange(lastPage);
     };
 
+    const handleSkip = () => {
+        const totalPage = Math.ceil(getAllUser?.total / limit);
+        const skipPage = localCurrentPage + 10;
+        if(skipPage <= totalPage) {
+            setLocalCurrentPage(skipPage);
+            onPageChange(skipPage)
+        }
+    }
+
   return (
     <div className="flex flex-col">
         <header className="fixed bg-slate-900 shadow w-screen text-white">
@@ -208,7 +217,7 @@ const UserUI: React.FC<UserUIProps> = ({limit, sortBy, skip,  currentPage, onPag
                             <TableRow onClick={() => handleRowClick(users?.id)} key={users?.id}>
                                 <TableCell></TableCell>
                                 <TableCell className="flex justify-center">
-                                    <img src={users?.image} alt="" className="rounded-full w-[24px] h-[24px]"/>
+                                    <img src={users?.image} alt="" className="my-auto md:my-0 rounded-full w-[18px] md:w-[24px] h-[18px] md:h-[24px]"/>
                                 </TableCell>
                                 <TableCell className="text-blue-600 text-center">
                                     {
@@ -270,7 +279,7 @@ const UserUI: React.FC<UserUIProps> = ({limit, sortBy, skip,  currentPage, onPag
             </div>            
         </div>
         <div className="flex mr-14 ml-auto">
-            <Button className="bg-blue-700 hover:bg-blue-600 px-8 py-2 rounded-[8px] text-white">Skip</Button>
+            <Button onClick={handleSkip}  disabled={localCurrentPage === Math.ceil(getAllUser?.total / limit)} className="bg-blue-700 hover:bg-blue-600 px-8 py-2 rounded-[8px] text-white">Skip</Button>
         </div>
 
         <footer className="mt-6">
